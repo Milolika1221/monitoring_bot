@@ -3,6 +3,10 @@ import asyncio
 from datetime import datetime
 from config import api_id, api_hash, bot_username, alert_channel
 
+sleep_time = 10
+time_check = 300
+message_timeout = 60
+
 async def check_bot():
     async with TelegramClient('session_name', api_id, api_hash) as client:
         while True:
@@ -11,12 +15,12 @@ async def check_bot():
                 
                 await client.send_message(bot_username, '/start')
                 print("Сообщение отправлено боту")
-                await asyncio.sleep(10)
+                await asyncio.sleep(sleep_time)
 
                 responses = []
                 async for message in client.iter_messages(bot_username, limit=5):
                     if message.out == False:  
-                        if message.date.timestamp() > datetime.now().timestamp() - 60:
+                        if message.date.timestamp() > datetime.now().timestamp() - message_timeout:
                             responses.append(message.text)
                             print(f"Бот ответил: {message.text}")
                 
@@ -33,7 +37,7 @@ async def check_bot():
                     print("Бот ответил")
                 
                 print(f"Жду 5 минут до следующей проверки...\n")
-                await asyncio.sleep(300)  
+                await asyncio.sleep(time_check)  
                 
             except Exception as e:
                 print(f"Ошибка: {e}")
@@ -45,7 +49,7 @@ async def check_bot():
                     print("Не удалось отправить уведомление об ошибке")
                 
                 print("Повтор через 5 минут...\n")
-                await asyncio.sleep(300)
+                await asyncio.sleep(time_check)
 
 async def main():
     print("Запуск мониторинга бота")
