@@ -17,6 +17,7 @@ api_id = 12345678  # Вставьте ваш api_id
 api_hash = 'your_api_hash_here'  # Вставьте ваш api_hash
 allert_channel = 'https://t.me/your_channel'  # Канал для уведомлений о сбоях
 bot_username = '@your_client_bot'  # Юзернейм бота, с которым работает клиент
+```
 
 3. Установка зависимостей
 pip install Telethon
